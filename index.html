@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>菱源市服务大厅 | 常见疑问解答</title>
+    <style>
+        :root {
+            --brand-color: #880e4f; /* 深紫红色 */
+            --bg-page: #fdfafb;
+            --text-dark: #1a1a1a;
+            --text-muted: #4a4a4a;
+        }
+
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            background-color: var(--bg-page);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-dark);
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 30px auto;
+            background: #ffffff;
+            padding: 45px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(136, 14, 79, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 50px;
+            letter-spacing: 1px;
+            color: var(--brand-color);
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 20px;
+        }
+
+        .qa-block {
+            margin-bottom: 40px;
+        }
+
+        /* Q 部分的圆角矩形装饰 */
+        .question-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .q-badge {
+            background-color: var(--brand-color);
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 18px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px; /* 圆角矩形 */
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .question-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--brand-color);
+        }
+
+        /* 回答部分 */
+        .answer-content {
+            padding-left: 48px;
+            font-size: 16px;
+            color: var(--text-muted);
+        }
+
+        /* 链接样式 */
+        a {
+            color: #2a6df4;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        a:hover {
+            opacity: 0.7;
+            text-decoration: underline;
+        }
+
+        code {
+            background: #f3f3f3;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.9em;
+            color: #d81b60;
+        }
+
+        .note {
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px 20px;
+                margin: 10px auto;
+            }
+            h1 {
+                font-size: 22px;
+            }
+            .question-text {
+                font-size: 18px;
+            }
+            .answer-content {
+                padding-left: 0;
+                margin-top: 8px;
+            }
+            .q-badge {
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>菱源市服务大厅（常见疑问解答）</h1>
+
+    <div class="qa-block">
+        <div class="question-row">
+            <span class="q-badge">Q1</span>
+            <span class="question-text">存档、蓝图、投影在哪里下载</span>
+        </div>
+        <div class="answer-content">
+            统一在爱发电公开：  
+            <a href="https://ifdian.net/a/YuanDiamond">菱源正在创作我的世界相关资源 | 爱发电</a>  
+            <span class="note">（此链接没有就是不公开，无需再次询问）（存档无需付费）</span><br>
+            部分存档会发布在 QQ 群（肝净生存 01，肝净生存 05），  
+            机械动力全群系铁路存档只提供夸克网盘，因为上传也不方便。
+        </div>
+    </div>
+
+    <div class="qa-block">
+        <div class="question-row">
+            <span class="q-badge">Q2</span>
+            <span class="question-text">存档版本是什么？</span>
+        </div>
+        <div class="answer-content">
+            肝净生存 01、肝净生存 05：Java 版 1.21.4（原版，无需安装整合包）<br>
+            机械动力全群系铁路：重度机械症整合包  
+            （<a href="https://space.bilibili.com/263315">https://space.bilibili.com/263315</a>）
+        </div>
+    </div>
+
+    <div class="qa-block">
+        <div class="question-row">
+            <span class="q-badge">Q3</span>
+            <span class="question-text">怎么使用存档？</span>
+        </div>
+        <div class="answer-content">
+            请搜索该视频：  
+            【我的世界 Java 版存档导入、备份问题，看到有人问，我就发了一哔哩哔哩】<br>
+            网易版本不可用，基岩版不可用
+        </div>
+    </div>
+
+    <div class="qa-block">
+        <div class="question-row">
+            <span class="q-badge">Q4</span>
+            <span class="question-text">存档怎么没有铁路？</span>
+        </div>
+        <div class="answer-content">
+            肝净生存 05 存档和机械动力全群系铁路存档才会有铁路。<br>
+            肝净生存 05 存档的铁路在 <b>0 100 0</b> 处，使用  
+            <code>/tp @s 0 100 0</code> 指令即可到达。
+        </div>
+    </div>
+
+    <div class="qa-block">
+        <div class="question-row">
+            <span class="q-badge">Q5</span>
+            <span class="question-text">怎么进服务器？</span>
+        </div>
+        <div class="answer-content">
+            请阅读群公告【服务器最新消息】，以群公告为主  
+            （不要收看【过时】消息）。<br>
+            请谨慎判断未在群公告的其他服务器，本群不做担保。<br>
+            服务器一般没有问题，若无法进入解决方法只有重启游戏。
+        </div>
+    </div>
+
+    <div class="qa-block">
+        <div class="question-row">
+            <span class="q-badge">Q6</span>
+            <span class="question-text">Java 版怎么下载？</span>
+        </div>
+        <div class="answer-content">
+            请搜索该视频：  
+            【Minecraft 我的世界正版购买教程，超详细无锁区 - 哔哩哔哩】<br>
+            本群不担保代购相关订单，请谨慎判断。
+        </div>
+    </div>
+
+    <div class="qa-block">
+        <div class="question-row">
+            <span class="q-badge">Q7</span>
+            <span class="question-text">主播为什么不用 MTR？</span>
+        </div>
+        <div class="answer-content">
+            MTR 的自由度较低，且风格与设计理念与游戏本体相差较大，  
+            不适宜生存设计、建造，且一般玩家并不能准确判断视频内容是否为我的世界。
+        </div>
+    </div>
+
+    <div class="qa-block">
+        <div class="question-row">
+            <span class="q-badge">Q8</span>
+            <span class="question-text">主播都有哪些账号？</span>
+        </div>
+        <div class="answer-content">
+            B站：菱源 S<br>
+            抖音：菱源 X<br>
+            YouTube：菱源 Y
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

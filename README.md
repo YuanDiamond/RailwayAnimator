@@ -1,2 +1,24 @@
-# RailwayAnimator
-A railway network editor featuring animated route rendering, Bézier curve tracks, station management, smart snapping, and line merge tools.
+# 菱源铁路动画生成器
+
+在线铁路线网可视化编辑器，支持导入地图后快速绘制线网并生成动画演示。
+
+## 功能
+
+* **地图导入** — PNG / JPG / WebP 作为背景底图
+* **全矢量绘制** — 贝塞尔曲线平滑连接，支持角点 / 平滑 / 对称三种节点类型
+* **节点编辑** — 拖拽移动，控制柄调整曲率
+* **吸附系统** — 锚点吸附 + 节点吸附，独立开关
+* **多线路管理** — 8 种颜色、5 种样式（实线 / 虚线 / 点线 / 双线 / 粗线）
+* **站点系统** — 独立站点或吸附至线路，支持动画联动
+* **并线功能** — 同位置节点建立联动，并列平行显示
+* **动画播放** — 基于 SVG Path Length 的逐线路进度动画
+* **图层管理** — 网格 / 地图 / 线路 / 站点独立显隐
+* **SVG 导出** — 完整矢量文件下载
+* **工程文件** — JSON 格式导入导出
+
+## 访问
+
+在线使用：https://yuandiamond.github.io/rail/
+
+**本项目 90% 以上内容由 AI 工具生成。**
+
