@@ -6,7 +6,8 @@
     <title>菱源市服务大厅 | 常见疑问解答</title>
     <style>
         :root {
-            --brand-color: #880e4f; /* 深紫红色 */
+            --brand-color: #880e4f;
+            /* 深紫红色 */
             --bg-page: #fdfafb;
             --text-dark: #1a1a1a;
             --text-muted: #4a4a4a;
@@ -33,18 +34,62 @@
         h1 {
             text-align: center;
             font-size: 28px;
-            margin-bottom: 50px;
+            margin-bottom: 28px;
             letter-spacing: 1px;
             color: var(--brand-color);
             border-bottom: 2px solid #f0f0f0;
             padding-bottom: 20px;
         }
 
+        /* ========== 新增：按钮区域 ========== */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            background-color: var(--brand-color);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.25s, transform 0.15s, box-shadow 0.25s;
+            box-shadow: 0 4px 14px rgba(136, 14, 79, 0.18);
+        }
+
+        .nav-btn:hover {
+            background-color: #a3155e;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(136, 14, 79, 0.28);
+            text-decoration: none;
+            opacity: 1;
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 10px rgba(136, 14, 79, 0.2);
+        }
+
+        .nav-btn .btn-icon {
+            font-size: 18px;
+        }
+
+        /* ========== 原有 QA 样式 ========== */
         .qa-block {
             margin-bottom: 40px;
         }
 
-        /* Q 部分的圆角矩形装饰 */
         .question-row {
             display: flex;
             align-items: center;
@@ -61,7 +106,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 8px; /* 圆角矩形 */
+            border-radius: 8px;
             margin-right: 12px;
             flex-shrink: 0;
         }
@@ -72,14 +117,12 @@
             color: var(--brand-color);
         }
 
-        /* 回答部分 */
         .answer-content {
             padding-left: 48px;
             font-size: 16px;
             color: var(--text-muted);
         }
 
-        /* 链接样式 */
         a {
             color: #2a6df4;
             text-decoration: none;
@@ -111,16 +154,31 @@
                 padding: 25px 20px;
                 margin: 10px auto;
             }
+
             h1 {
                 font-size: 22px;
             }
+
+            .nav-buttons {
+                gap: 12px;
+                margin-bottom: 30px;
+            }
+
+            .nav-btn {
+                padding: 10px 20px;
+                font-size: 15px;
+                border-radius: 8px;
+            }
+
             .question-text {
                 font-size: 18px;
             }
+
             .answer-content {
                 padding-left: 0;
                 margin-top: 8px;
             }
+
             .q-badge {
                 width: 30px;
                 height: 30px;
@@ -132,152 +190,160 @@
 
 <body>
 
-<div class="container">
-    <h1>菱源市服务大厅（常见疑问解答）</h1>
+    <div class="container">
+        <h1>菱源市服务大厅（常见疑问解答）</h1>
 
-    <div class="qa-block">
-        <div class="question-row">
-            <span class="q-badge">Q1</span>
-            <span class="question-text">存档、蓝图、投影在哪里下载</span>
+        <!-- ========== 新增：两个跳转按钮 ========== -->
+        <div class="nav-buttons">
+            <a href="/rail" class="nav-btn">
+                <span class="btn-icon">🚇</span> 线网生成
+            </a>
+            <a href="/ticket" class="nav-btn">
+                <span class="btn-icon">🎫</span> 出票网站
+            </a>
         </div>
-        <div class="answer-content">
-            统一在爱发电公开：  
-            <a href="https://ifdian.net/a/YuanDiamond">菱源 | 爱发电</a>  
-            <span class="note">（此链接没有就是不公开，无需再次询问）（存档无需付费）</span><br>
-			爱发电里会按照系列分类资源，可见Q2判断属于什么系列。<br>
-			爱发电难以顾及私信，如有问题可通过其他方式联系<br>
-            部分存档会发布在 QQ 群（肝净生存 01，肝净生存 05）<br> 
-            机械动力全群系铁路 存档只提供夸克网盘，因为上传也不方便。
+
+        <div class="qa-block">
+            <div class="question-row">
+                <span class="q-badge">Q1</span>
+                <span class="question-text">存档、蓝图、投影在哪里下载</span>
+            </div>
+            <div class="answer-content">
+                统一在爱发电公开：
+                <a href="https://ifdian.net/a/YuanDiamond">菱源 | 爱发电</a>
+                <span class="note">（此链接没有就是不公开，无需再次询问）（存档无需付费）</span><br>
+                爱发电里会按照系列分类资源，可见Q2判断属于什么系列。<br>
+                爱发电难以顾及私信，如有问题可通过其他方式联系<br>
+                部分存档会发布在 QQ 群（肝净生存 01，肝净生存 05）<br>
+                机械动力全群系铁路 存档只提供夸克网盘，因为上传也不方便。
+            </div>
         </div>
+
+        <div class="qa-block">
+            <div class="question-row">
+                <span class="q-badge">Q2</span>
+                <span class="question-text">存档版本、种子是什么？</span>
+            </div>
+            <div style="max-width:900px;margin: 16px 0;font-size:15px;line-height:1.7;color:#333;">
+                <!-- 系列1 -->
+                <div style="background:#f7f8fa;border-radius:8px;padding:14px;margin-bottom:12px;">
+                    <p style="font-weight:bold;font-size:16px;margin:0 0 8px 0;">1.爆肝纯净生存系列 (肝净生存)</p>
+                    <p style="margin:0 0 6px 0;color:#555;">原版的生存系列，<strong>典型视频主题：</strong>村民公寓、全群系铁路、菱源岛、全种类花海。</p>
+                    <p style="margin:0;color:#444;">📂 <strong>已公布的存档：</strong>肝净生存01、肝净生存05：Java版1.21.4原版；肝净生存10：Java版26.1原版 </p>
+                    <p style="margin:0;color:#444;"> <strong>地图种子：</strong>-4914203979966427482</p>
+                </div>
+
+                <!-- 系列2 -->
+                <div style="background:#f7f8fa;border-radius:8px;padding:14px;margin-bottom:12px;">
+                    <p style="font-weight:bold;font-size:16px;margin:0 0 8px 0;">2.机械动力版全群系铁路</p>
+                    <p style="margin:0 0 6px 0;color:#555;">重度机械症整合包下的铁路系列，<strong>典型视频主题：</strong>工厂，林海铁路，高铁，X1列车。</p>
+                    <p style="margin:0;color:#444;">📂 <strong>已公布的存档：</strong>机械动力全群系铁路存档：重度机械症整合包 (存档存在火车开到地下、部分断轨问题，且20G存储)</p>
+                    <p style="margin:6px 0 0 0;font-size:14px;">
+                        <a href="https://space.bilibili.com/263315" target="_blank" style="color:#0080eb;">重度机械症整合包由此进入作者主页获取，这里不进行提供</a>
+                    </p>
+                </div>
+
+                <!-- 系列3 -->
+                <div style="background:#f7f8fa;border-radius:8px;padding:14px;margin-bottom:12px;">
+                    <p style="font-weight:bold;font-size:16px;margin:0 0 8px 0;">3.建筑翻倍生存系列 (翻倍生存)</p>
+                    <p style="margin:0 0 6px 0;color:#555;">原版为主的建筑系列，<strong>典型视频主题：</strong>六方时钟堡，六方神树，六方中古城。</p>
+                    <p style="margin:0;color:#888;">📂 <strong>存档状态：</strong>未公布存档，未公布整合包</p>
+                </div>
+
+                <!-- 系列4 -->
+                <div style="background:#f7f8fa;border-radius:8px;padding:14px;">
+                    <p style="font-weight:bold;font-size:16px;margin:0 0 8px 0;">4.依然全群系铁路系列 (依然铁路)</p>
+                    <p style="margin:0 0 6px 0;color:#555;">含航空学的新铁路系列，<strong>典型视频主题：</strong>10000米铁路环线，单轨人力线，车站火车。</p>
+                    <p style="margin:0;color:#888;">📂 <strong>存档状态：</strong>未公布存档，未公布整合包 <span style="color:#22a75d;font-weight:500;">(即将公布)</span> </p>
+                    <p style="margin:0;color:#444;"> <strong>地图种子：</strong>5893022264688916060</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="qa-block">
+            <div class="question-row">
+                <span class="q-badge">Q3</span>
+                <span class="question-text">存档怎么没有铁路？</span>
+            </div>
+            <div class="answer-content">
+                肝净生存05 肝净生存10 存档 和 机械动力全群系铁路 存档才会有铁路。<br>
+                肝净生存系列 存档的铁路在 <b>0 100 0</b> 处，使用
+                <code>/tp @s 0 100 0</code> 指令即可到达。
+            </div>
+        </div>
+
+        <div class="qa-block">
+            <div class="question-row">
+                <span class="q-badge">Q4</span>
+                <span class="question-text">怎么使用存档？</span>
+            </div>
+            <div class="answer-content">
+                请搜索该视频：
+                <a href="https://www.bilibili.com/video/BV1dT4m1S72N"> 我的世界Java版存档导入、备份问题，看到有人问，我就发了</a> <br>
+                主播提供的存档在网易版本不可用，基岩版不可用
+            </div>
+        </div>
+
+        <div class="qa-block">
+            <div class="question-row">
+                <span class="q-badge">Q5</span>
+                <span class="question-text">怎么进服务器？</span>
+            </div>
+            <div class="answer-content">
+                请阅读群公告【服务器最新消息】，以群公告为主
+                （不要收看【过时】消息）。<br>
+                请谨慎判断未在群公告的其他服务器，本群不做担保。<br>
+                服务器一般没有问题，若无法进入解决方法只有重启游戏。
+            </div>
+        </div>
+
+        <div class="qa-block">
+            <div class="question-row">
+                <span class="q-badge">Q6</span>
+                <span class="question-text">Java 版怎么下载？</span>
+            </div>
+            <div class="answer-content">
+                请搜索该视频：
+                <a href="https://www.bilibili.com/video/BV13qBsBUEbw"> Minecraft购买指南。告别锁区！</a> <br>
+                本群不担保代购相关订单，请谨慎判断。
+            </div>
+        </div>
+
+        <div class="qa-block">
+            <div class="question-row">
+                <span class="q-badge">Q7</span>
+                <span class="question-text">机械动力轨道怎么做到更大的弧度？</span>
+            </div>
+            <div class="answer-content">
+                需要改动机械动力的配置，可观看本视频学习：
+                <a href="https://www.bilibili.com/video/BV1sPg3z1EVz">【机械动力】火车设置相关问题的解决方案</a>
+            </div>
+        </div>
+
+        <div class="qa-block">
+            <div class="question-row">
+                <span class="q-badge">Q8</span>
+                <span class="question-text">主播为什么不用 MTR？</span>
+            </div>
+            <div class="answer-content">
+                MTR 的自由度较低，且风格与设计理念与游戏本体相差较大，
+                不适宜生存设计、建造，且一般玩家并不能准确判断视频内容是否为我的世界。
+            </div>
+        </div>
+
+        <div class="qa-block">
+            <div class="question-row">
+                <span class="q-badge">Q9</span>
+                <span class="question-text">主播都有哪些账号？</span>
+            </div>
+            <div class="answer-content">
+                B站：菱源 S<br>
+                抖音：菱源 X<br>
+                YouTube：菱源 Y
+            </div>
+        </div>
+
     </div>
-
-    <div class="qa-block">
-        <div class="question-row">
-            <span class="q-badge">Q2</span>
-            <span class="question-text">存档版本、种子是什么？</span>
-        </div>
-        <div style="max-width:900px;margin: 16px 0;font-size:15px;line-height:1.7;color:#333;">
-			<!-- 系列1 -->
-			<div style="background:#f7f8fa;border-radius:8px;padding:14px;margin-bottom:12px;">
-				<p style="font-weight:bold;font-size:16px;margin:0 0 8px 0;">1.爆肝纯净生存系列 (肝净生存)</p>
-				<p style="margin:0 0 6px 0;color:#555;">原版的生存系列，<strong>典型视频主题：</strong>村民公寓、全群系铁路、菱源岛、全种类花海。</p>
-				<p style="margin:0;color:#444;">📂 <strong>已公布的存档：</strong>肝净生存01、肝净生存05：Java版1.21.4原版；肝净生存10：Java版26.1原版 </p> 
-				<p style="margin:0;color:#444;"> <strong>地图种子：</strong>-4914203979966427482</p>
-			</div>
-
-			<!-- 系列2 -->
-			<div style="background:#f7f8fa;border-radius:8px;padding:14px;margin-bottom:12px;">
-				<p style="font-weight:bold;font-size:16px;margin:0 0 8px 0;">2.机械动力版全群系铁路</p>
-				<p style="margin:0 0 6px 0;color:#555;">重度机械症整合包下的铁路系列，<strong>典型视频主题：</strong>工厂，林海铁路，高铁，X1列车。</p>
-				<p style="margin:0;color:#444;">📂 <strong>已公布的存档：</strong>机械动力全群系铁路存档：重度机械症整合包 (存档存在火车开到地下、部分断轨问题，且20G存储)</p>
-				<p style="margin:6px 0 0 0;font-size:14px;">
-					<a href="https://space.bilibili.com/263315" target="_blank" style="color:#0080eb;">重度机械症整合包由此进入作者主页获取，这里不进行提供</a>
-				</p>
-			</div>
-
-			<!-- 系列3 -->
-			<div style="background:#f7f8fa;border-radius:8px;padding:14px;margin-bottom:12px;">
-				<p style="font-weight:bold;font-size:16px;margin:0 0 8px 0;">3.建筑翻倍生存系列 (翻倍生存)</p>
-				<p style="margin:0 0 6px 0;color:#555;">原版为主的建筑系列，<strong>典型视频主题：</strong>六方时钟堡，六方神树，六方中古城。</p>
-				<p style="margin:0;color:#888;">📂 <strong>存档状态：</strong>未公布存档，未公布整合包</p>
-			</div>
-
-			<!-- 系列4 -->
-			<div style="background:#f7f8fa;border-radius:8px;padding:14px;">
-				<p style="font-weight:bold;font-size:16px;margin:0 0 8px 0;">4.依然全群系铁路系列 (依然铁路)</p>
-				<p style="margin:0 0 6px 0;color:#555;">含航空学的新铁路系列，<strong>典型视频主题：</strong>10000米铁路环线，单轨人力线，车站火车。</p>
-				<p style="margin:0;color:#888;">📂 <strong>存档状态：</strong>未公布存档，未公布整合包 <span style="color:#22a75d;font-weight:500;">(即将公布)</span> </p>
-				<p style="margin:0;color:#444;"> <strong>地图种子：</strong>5893022264688916060</p>
-			</div>
-		</div>
-    </div>
-
-
-    <div class="qa-block">
-        <div class="question-row">
-            <span class="q-badge">Q3</span>
-            <span class="question-text">存档怎么没有铁路？</span>
-        </div>
-        <div class="answer-content">
-            肝净生存05 肝净生存10 存档 和 机械动力全群系铁路 存档才会有铁路。<br>
-            肝净生存系列 存档的铁路在 <b>0 100 0</b> 处，使用  
-            <code>/tp @s 0 100 0</code> 指令即可到达。
-        </div>
-    </div>
-	
-	<div class="qa-block">
-        <div class="question-row">
-            <span class="q-badge">Q4</span>
-            <span class="question-text">怎么使用存档？</span>
-        </div>
-        <div class="answer-content">
-            请搜索该视频：  
-            <a href="https://www.bilibili.com/video/BV1dT4m1S72N"> 我的世界Java版存档导入、备份问题，看到有人问，我就发了</a>  <br>
-            主播提供的存档在网易版本不可用，基岩版不可用
-        </div>
-    </div>
-
-    <div class="qa-block">
-        <div class="question-row">
-            <span class="q-badge">Q5</span>
-            <span class="question-text">怎么进服务器？</span>
-        </div>
-        <div class="answer-content">
-            请阅读群公告【服务器最新消息】，以群公告为主  
-            （不要收看【过时】消息）。<br>
-            请谨慎判断未在群公告的其他服务器，本群不做担保。<br>
-            服务器一般没有问题，若无法进入解决方法只有重启游戏。
-        </div>
-    </div>
-
-    <div class="qa-block">
-        <div class="question-row">
-            <span class="q-badge">Q6</span>
-            <span class="question-text">Java 版怎么下载？</span>
-        </div>
-        <div class="answer-content">
-            请搜索该视频：  
-            <a href="https://www.bilibili.com/video/BV13qBsBUEbw"> Minecraft购买指南。告别锁区！</a>  <br>
-            本群不担保代购相关订单，请谨慎判断。
-        </div>
-    </div>
-	
-	<div class="qa-block">
-        <div class="question-row">
-            <span class="q-badge">Q7</span>
-            <span class="question-text">机械动力轨道怎么做到更大的弧度？</span>
-        </div>
-        <div class="answer-content">
-            需要改动机械动力的配置，可观看本视频学习：  
-            <a href="https://www.bilibili.com/video/BV1sPg3z1EVz">【机械动力】火车设置相关问题的解决方案</a>  
-        </div>
-    </div>
-
-
-    <div class="qa-block">
-        <div class="question-row">
-            <span class="q-badge">Q8</span>
-            <span class="question-text">主播为什么不用 MTR？</span>
-        </div>
-        <div class="answer-content">
-            MTR 的自由度较低，且风格与设计理念与游戏本体相差较大，  
-            不适宜生存设计、建造，且一般玩家并不能准确判断视频内容是否为我的世界。
-        </div>
-    </div>
-
-    <div class="qa-block">
-        <div class="question-row">
-            <span class="q-badge">Q9</span>
-            <span class="question-text">主播都有哪些账号？</span>
-        </div>
-        <div class="answer-content">
-            B站：菱源 S<br>
-            抖音：菱源 X<br>
-            YouTube：菱源 Y
-        </div>
-    </div>
-
-</div>
 
 </body>
 </html>
