@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>菱源-全群系铁路车票生成器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0066cc',
+                        secondary: '#4CAF50',
+                        danger: '#f44336',
+                        neutral: '#f0f0f0',
+                        'neutral-dark': '#333333',
+                    },
+                    fontFamily: {
+                        sans: ['Microsoft YaHei', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto { content-visibility: auto; }
+            .form-shadow { box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); }
+            .btn-hover { transition: all 0.3s ease; }
+            .btn-hover:hover { transform: translateY(-2px); }
+        }
+    </style>
+    <style>
+        /* 车票样式保持完全不变 */
+        .ticket { display: none; position: relative; width: 450px; height: 250px; margin: 20px auto; background: #97BDCF; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); overflow: hidden; }
+        .ticket .bg-img { position: absolute; top: 0; left: 0; object-fit: cover; z-index: 0; }
+        .ticket .bg-gradient { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to right, rgba(151,189,207,1) 0%, rgba(151,189,207,0.6) 80%, rgba(70,134,160,0.1) 100%); z-index: 1; pointer-events: none; }
+        .ticket-header, .ticket-footer { position: absolute; left: 0; width: 100%; display: flex; align-items: center; padding: 0 15px; box-sizing: border-box; z-index: 2; }
+        .ticket-header { background: #97BDCF; color: black; height: 40px; }
+        .ticket-footer { color: white; background: #4686A0; height: 25px; }
+        .ticket-header { top: 0; justify-content: space-between; }
+        .ticket-footer { bottom: 0; justify-content: center; font-size: 14px; }
+        .ticket-content { position: relative; z-index: 1; top: 40px; bottom: 25px; left: 0; width: 100%; padding: 0 15px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 2; }
+        .route { font-size: 28px; font-weight: bold; margin: 1px 0; display: flex; align-items: center; justify-content: center; flex-grow: 1; width: 100%; }
+        .route::before { content: attr(data-start); margin-right: 20px; }
+        .route::after { content: attr(data-end); margin-left: 20px; }
+        .route span { font-size: 40px; }
+        .ticket-details { width: 100%; display: flex; flex-direction: column; }
+        .time { text-align: left; font-family: "Times New Roman", Times, serif; font-size: 18px; padding-left: 2rem; color: #333; margin-bottom: 10px; }
+        .passenger-info { display: flex; flex-direction: column; align-items: flex-start; gap: 0.15rem; margin: 0; padding: 0; width: 100%; }
+        .player-info, .shift-info, .price-info { text-align: left; font-weight: bold; font-family: "Times New Roman", Times, serif; font-size: 16px; color: #333; margin: 0; padding: 0; padding-left: 2rem; }
+
+        /* 表单同行布局 */
+        .form-row { display: flex; align-items: center; gap: 0.5rem; }
+        .form-row label { width: 4rem; flex-shrink: 0; font-size: 0.875rem; font-weight: 500; color: #374151; }
+        .form-row select, .form-row input { flex: 1; }
+    </style>
+</head>
+<body class="bg-neutral font-sans min-h-screen flex flex-col">
+    <div class="container mx-auto px-4 py-6 flex-grow">
+        <header class="text-center mb-5">
+            <h1 class="text-[clamp(2rem,5vw,3rem)] font-bold text-primary mb-2">
+                <i class="fa fa-train mr-2"></i>菱源铁路局全群系铁路车票生成器
+            </h1>
+            <p class="text-gray-600">定制你的爆肝纯净生存系列车票</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-8">
+            <div class="lg:col-span-4 bg-white rounded-xl p-6 form-shadow">
+                <h2 class="text-xl font-bold text-primary mb-5 flex items-center">
+                    <i class="fa fa-train mr-2"></i> 车票信息
+                </h2>
+
+                <form class="space-y-3">
+                    <div class="form-row">
+                        <label for="start">起点：</label>
+                        <select id="start" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all">
+                            <option value="出生点总站">出生点总站</option>
+                            <option value="蘑菇岛站">蘑菇岛站</option>
+                            <option value="冰原站">冰原站</option>
+                            <option value="白桦站">白桦站</option>
+                            <option value="丛林站">丛林站</option>
+                            <option value="热带草原站">热带草原站</option>
+                            <option value="云杉站">云杉站</option>
+                            <option value="恶地站">恶地站</option>
+                            <option value="樱花站">樱花站</option>
+                            <option value="苍白之园站">苍白之园站</option>
+                        </select>
+                    </div>
+                    <div id="start-info" class="text-xs text-gray-500 mt-0.5 ml-16"></div>
+
+                    <div class="form-row">
+                        <label for="end">终点：</label>
+                        <select id="end" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all">
+                            <option value="出生点总站">出生点总站</option>
+                            <option value="蘑菇岛站">蘑菇岛站</option>
+                            <option value="冰原站">冰原站</option>
+                            <option value="白桦站">白桦站</option>
+                            <option value="丛林站">丛林站</option>
+                            <option value="热带草原站">热带草原站</option>
+                            <option value="云杉站">云杉站</option>
+                            <option value="恶地站">恶地站</option>
+                            <option value="樱花站">樱花站</option>
+                            <option value="苍白之园站">苍白之园站</option>
+                        </select>
+                    </div>
+                    <div id="end-info" class="text-xs text-gray-500 mt-0.5 ml-16"></div>
+
+                    <div id="price-preview" class="text-sm text-gray-700 font-medium py-1 ml-16"></div>
+
+                    <div class="form-row">
+                        <label for="playerName">游戏名称：</label>
+                        <input type="text" id="playerName" placeholder="输入你的游戏名称" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all">
+                    </div>
+
+                    <div class="form-row">
+                        <label for="shift">班次：</label>
+                        <select id="shift" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all">
+                            <option value="K1214">K1214</option>
+                            <option value="1218">1218</option>
+                            <option value="D1206">D1206</option>
+                            <option value="T1165">T1165</option>
+                            <option value="Z1710">Z1710</option>
+                            <option value="G1122">G1122</option>
+                            <option value="C1194">C1194</option>
+                            <option value="custom">自定义...</option>
+                        </select>
+                    </div>
+                    <input type="text" id="customShift" placeholder="输入自定义班次" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all hidden ml-16">
+
+                    <div class="flex flex-wrap gap-3 pt-1 ml-16">
+                        <button type="button" onclick="validateAndGenerate()" class="btn-hover bg-secondary text-white px-6 py-2 rounded-lg font-medium flex items-center">
+                            <i class="fa fa-ticket mr-2"></i> 生成车票
+                        </button>
+                        <button type="button" onclick="generateRandomTicket()" class="btn-hover bg-primary text-white px-6 py-2 rounded-lg font-medium flex items-center">
+                            <i class="fa fa-random mr-2"></i> 随机生成
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 右侧车票和注意事项 -->
+            <div class="lg:col-span-8 space-y-5">
+                <!-- 车票显示区域 -->
+                <div class="bg-white rounded-xl p-6 form-shadow">
+                    <h2 class="text-xl font-bold text-primary mb-4 flex items-center">
+                        <i class="fa fa-print mr-2"></i> 生成的车票
+                    </h2>
+
+                    <div class="ticket-container flex justify-center">
+                        <div class="ticket" id="ticket">
+                            <img src="" alt="背景图" crossorigin="anonymous" class="bg-img">
+                            <div class="bg-gradient"></div>
+                            <div class="ticket-header">
+                                <div class="station-name">全群系铁路定制车票</div>
+                                <div class="ticket-number" id="ticketNumber">NO.00000001</div>
+                            </div>
+                            <div class="ticket-content">
+                                <div class="route" id="route" data-start="" data-end="">
+                                    <span>→</span>
+                                </div>
+                                <div class="ticket-details">
+                                    <div class="time" id="time"></div>
+                                    <div class="passenger-info">
+                                        <div class="player-info">
+                                            <div>玩家：<span id="playerNameDisplay"></span></div>
+                                        </div>
+                                        <div class="shift-info">
+                                            <div>班次：<span id="shiftDisplay"></span></div>
+                                        </div>
+                                        <div class="price-info">
+                                            <div>售价：<span id="priceDisplay"></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ticket-footer">
+                                <div>欢迎乘坐全群系铁路</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-5 flex justify-center">
+                        <button type="button" id="saveTicketPng" onclick="downloadTicketPNG()" disabled class="btn-hover bg-primary text-white px-6 py-2 rounded-lg font-medium flex items-center disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                            <i class="fa fa-download mr-2"></i> 保存车票 PNG
+                        </button>
+                    </div>
+                    <p id="saveTicketHint" class="mt-2 text-center text-xs text-gray-500">请先生成车票</p>
+                </div>
+
+                <!-- 注意事项（字体更小，间距紧凑） -->
+                <div class="bg-white rounded-xl p-6 form-shadow">
+                    <h2 class="text-xl font-bold text-primary mb-3 flex items-center">
+                        <i class="fa fa-info-circle mr-2"></i> 注意事项
+                    </h2>
+                    <ul class="list-disc pl-5 text-gray-700 text-xs space-y-0.5">
+                        <li>本车票仅供娱乐使用，不具备真实乘车效力。</li>
+                        <li>生成的车票可以保存为图片用于分享。</li>
+                        <li>如需重新生成车票，请再次填写信息并点击"生成车票"按钮。</li>
+                        <li>车票信息仅保存在当前页面中，刷新页面后将丢失。</li>
+                        <li>生成车票后，点击"保存车票 PNG"即可下载高清图片。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 站台主题色配置
+        const stationColors = {
+            "出生点总站": "#ff0000", "蘑菇岛站": "#ff00ff", "冰原站": "#ffffff",
+            "白桦站": "#cccc99", "丛林站": "#009933", "热带草原站": "#ffff00",
+            "云杉站": "#006633", "恶地站": "#ff9933", "樱花站": "#ff0099", "苍白之园站": "#999999"
+        };
+        const stationWeights = {
+            "出生点总站": 18, "蘑菇岛站": 0, "冰原站": 20, "白桦站": 25, "丛林站": 32,
+            "热带草原站": 45, "云杉站": 51, "恶地站": 72, "樱花站": 81, "苍白之园站": 92
+        };
+        const stationDescriptions = {
+            "出生点总站": "这是世界的原点，是整个铁路网络的核心枢纽。",
+            "蘑菇岛站": "周边是蘑菇的海洋，风景独特，宛如童话世界。",
+            "冰原站": "被冰雪覆盖，寒冷而宁静，是冰雪爱好者的天堂。",
+            "白桦站": "周围生长着大片的白桦林，景色宜人。",
+            "丛林站": "位于茂密的丛林中，充满了生机与神秘。",
+            "热带草原站": "广袤的草原上，动物们自由奔跑，展现出大自然的活力。",
+            "云杉站": "云杉林环绕，空气清新，是放松身心的好地方。",
+            "恶地站": "独特的恶地地貌，色彩斑斓，仿佛置身于另一个星球。",
+            "樱花站": "春天樱花盛开，如诗如画，美不胜收。",
+            "苍白之园站": "宁静而淡雅的地方，给人一种宁静致远的感觉。"
+        };
+
+        document.getElementById('shift').addEventListener('change', function() {
+            document.getElementById('customShift').classList.toggle('hidden', this.value !== 'custom');
+        });
+
+        function updatePricePreview() {
+            const s = stationWeights[document.getElementById('start').value];
+            const e = stationWeights[document.getElementById('end').value];
+            const d = Math.abs(s - e);
+            const price = Math.max(5, Math.min((d-10)*0.2+5, (d-40)*0.12+9, (d-60)*0.08+11.4, (d-80)*0.06+13)).toFixed(2);
+            document.getElementById('price-preview').textContent = `预计票价: ${price} 绿宝石`;
+        }
+        document.getElementById('start').addEventListener('change', updatePricePreview);
+        document.getElementById('end').addEventListener('change', updatePricePreview);
+
+        function updateStationInfo() {
+            document.getElementById('start-info').textContent = stationDescriptions[document.getElementById('start').value];
+            document.getElementById('end-info').textContent = stationDescriptions[document.getElementById('end').value];
+        }
+        document.getElementById('start').addEventListener('change', updateStationInfo);
+        document.getElementById('end').addEventListener('change', updateStationInfo);
+
+        function validateAndGenerate() {
+            if (document.getElementById('start').value === document.getElementById('end').value) {
+                alert('起点和终点不能相同！'); return;
+            }
+            generateTicket();
+        }
+
+        function generateTicket() {
+            const start = document.getElementById('start').value;
+            const end = document.getElementById('end').value;
+            const name = document.getElementById('playerName').value || '未命名玩家';
+            let shift = document.getElementById('shift').value;
+            if (shift === 'custom') shift = document.getElementById('customShift').value || '未指定';
+
+            const bgImg = document.querySelector('.ticket .bg-img');
+            bgImg.src = `${start}.png`;
+            document.getElementById('ticketNumber').textContent = `NO.${Date.now().toString().padStart(8,'0')}`;
+            document.getElementById('ticketNumber').style.color = stationColors[end] || '#000';
+            document.getElementById('route').dataset.start = start;
+            document.getElementById('route').dataset.end = end;
+
+            const now = new Date();
+            document.getElementById('time').textContent = `${now.getFullYear()}年${String(now.getMonth()+1).padStart(2,'0')}月${String(now.getDate()).padStart(2,'0')}日 ${String(now.getHours()+1).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')} 开`;
+            document.getElementById('playerNameDisplay').textContent = name;
+            document.getElementById('shiftDisplay').textContent = shift;
+
+            const d = Math.abs(stationWeights[start] - stationWeights[end]);
+            const price = Math.max(5, Math.min((d-10)*0.2+5, (d-40)*0.12+9, (d-60)*0.08+11.4, (d-80)*0.06+13)).toFixed(2);
+            document.getElementById('priceDisplay').textContent = `${price} 绿宝石`;
+
+            document.getElementById('ticket').style.display = 'block';
+            requestAnimationFrame(() => {});
+            document.getElementById('saveTicketPng').disabled = false;
+            document.getElementById('saveTicketHint').textContent = 'PNG 图片将直接下载到本地';
+        }
+
+        async function downloadTicketPNG() {
+            const ticketEl = document.getElementById('ticket');
+            const saveBtn = document.getElementById('saveTicketPng');
+            const hint = document.getElementById('saveTicketHint');
+            if (ticketEl.style.display === 'none') { hint.textContent = '请先生成车票'; return; }
+            saveBtn.disabled = true; hint.textContent = '正在生成 PNG...';
+            try {
+                await document.fonts.ready;
+                await new Promise(r => requestAnimationFrame(r));
+                const bg = ticketEl.querySelector('.bg-img');
+                if (bg && !bg.complete) await new Promise(r => { bg.onload = r; bg.onerror = r; });
+                const canvas = await html2canvas(ticketEl, {
+                    backgroundColor: null, scale: 2, useCORS: true, allowTaint: false, logging: false,
+                    onclone: function(clonedDoc) {
+                        const footer = clonedDoc.querySelector('.ticket-footer');
+                        if (footer) {
+                            const div = footer.querySelector('div');
+                            if (div) div.style.transform = 'translateY(-5px)';
+                        }
+                    }
+                });
+                const num = document.getElementById('ticketNumber').textContent || 'ticket';
+                await new Promise((resolve, reject) => {
+                    canvas.toBlob(blob => {
+                        if (!blob) reject(new Error('无法创建 PNG'));
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url; a.download = `${num}.png`; a.click();
+                        setTimeout(() => URL.revokeObjectURL(url), 1000);
+                        resolve();
+                    }, 'image/png');
+                });
+                hint.textContent = 'PNG 已保存';
+            } catch(e) { hint.textContent = 'PNG 保存失败'; console.error(e); }
+            finally { saveBtn.disabled = false; }
+        }
+
+        function generateRandomPlayerName() {
+            const len = Math.floor(Math.random()*5)+3;
+            return Array.from({length: len}, () => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[Math.floor(Math.random()*26)]).join('');
+        }
+
+        function generateRandomTicket() {
+            const stations = Object.keys(stationWeights);
+            let s, e;
+            do { s = stations[Math.floor(Math.random()*stations.length)]; e = stations[Math.floor(Math.random()*stations.length)]; } while (s===e);
+            document.getElementById('start').value = s;
+            document.getElementById('end').value = e;
+            const opts = document.getElementById('shift').options;
+            document.getElementById('shift').selectedIndex = Math.floor(Math.random()*(opts.length-1));
+            document.getElementById('customShift').classList.add('hidden');
+            document.getElementById('playerName').value = generateRandomPlayerName();
+            updatePricePreview(); updateStationInfo(); generateTicket();
+        }
+
+        updatePricePreview(); updateStationInfo();
+    </script>
+</body>
+</html>
