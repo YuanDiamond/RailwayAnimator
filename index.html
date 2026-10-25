@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="菱源 S 的虚拟主播个人页与常见疑问解答：存档、蓝图、投影、服务器、Java 版购买、机械动力轨道设置等。">
+  <meta name="description" content="菱源的个人页与常见疑问解答：存档、蓝图、投影、服务器、以及常见问答等。">
   <title>菱源市服务大厅 | 常见疑问解答</title>
   <style>
     :root {
@@ -206,11 +206,14 @@
 
     .tools-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
       margin-top: 22px;
     }
-
+	
+	.tool-card.railway-gen {
+	  background: linear-gradient(135deg,#1565c0 0%,#00838f 100%);
+	}
     .tool-card {
       position: relative;
       overflow: hidden;
@@ -675,7 +678,7 @@
         <h1>菱源市服务大厅</h1>
         <p class="hero-sub">
           这里是菱源的资源与常见疑问解答站。你可以快速找到全群系铁路、纯净生存、建筑生存等系列存档与蓝图，
-          也可以直接使用线网生成和车票生成工具。
+          并附有全群系铁路投影生成，车票生成，以及2D线网动画生成工具。
         </p>
         <div class="hero-actions">
           <a class="primary-btn" href="#faq">
@@ -683,7 +686,7 @@
             <span aria-hidden="true">↓</span>
           </a>
           <a class="ghost-btn" href="https://ifdian.net/a/YuanDiamond" target="_blank" rel="noopener">
-            爱发电资源入口 ↗
+            投影、存档等资源入口 ↗
           </a>
         </div>
         <ul class="account-list">
@@ -715,6 +718,14 @@
         </span>
         <span class="tool-arrow" aria-hidden="true">→</span>
       </a>
+	  <a class="tool-card railway-gen" href="brige/index.html">
+		<span class="tool-icon">🚞</span>
+		<span>
+		  <h3>全群系铁路投影生成器</h3>
+		  <p>快速生成全群系铁路投影，支持不同弧度。</p>
+		</span>
+		<span class="tool-arrow" aria-hidden="true">→</span>
+	  </a>
     </section>
 
     <div class="section-heading">
