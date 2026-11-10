@@ -56,7 +56,7 @@
     code {
       background: #fff1f7;
       color: #c2185b;
-      border: 1px solid rgba(194, 24, 91, .12);
+      border: 1px solid rgba(194, 24, 91, .15);
       padding: 2px 7px;
       border-radius: 7px;
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -211,9 +211,10 @@
       margin-top: 22px;
     }
 	
-	.tool-card.railway-gen {
-	  background: linear-gradient(135deg,#1565c0 0%,#00838f 100%);
-	}
+    .tool-card.railway-gen {
+      background: linear-gradient(135deg,#1565c0 0%,#00838f 100%);
+    }
+
     .tool-card {
       position: relative;
       overflow: hidden;
@@ -317,9 +318,6 @@
       pointer-events: none;
       object-fit: contain;
       border-radius: 18px;
-    }
-
-    .hero-parrot {
       top: 18px;
       left: 16px;
       width: 54px;
@@ -423,7 +421,7 @@
       border: 0;
       display: grid;
       place-items: center;
-      border-radius: 9px;
+      border-radius: 999px;
       background: var(--brand-soft);
       color: var(--brand);
       font-weight: 900;
@@ -463,49 +461,76 @@
       font-size: 15px;
     }
 
+    .q1-image {
+      display: block;
+      max-width: 260px;
+      width: 100%;
+      height: auto;
+      margin: 12px 0;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(89, 33, 74, .12);
+      border: 1px solid rgba(194, 24, 91, .15);
+    }
+
     .series-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 8px;
+      gap: 16px;
+      margin-top: 12px;
     }
 
+    /* 仅 Q2 里的小框变为淡紫色 */
     .series-card {
       position: relative;
       overflow: hidden;
-      border-radius: 15px;
-      background: #f3efff;
-      border: 1px solid rgba(124, 92, 231, .12);
-      box-shadow: 0 8px 20px rgba(89, 33, 74, .08);
+      border-radius: 20px;
+      background: linear-gradient(145deg, #f7f2ff 0%, #ede5fc 100%);
+      border: 1px solid rgba(108, 92, 231, .22);
+      box-shadow: 0 10px 24px rgba(108, 92, 231, .12);
+      backdrop-filter: blur(8px);
+      transition: all .25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .series-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px rgba(108, 92, 231, .22);
+      border-color: rgba(108, 92, 231, .45);
     }
 
     .series-decor {
       position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 70px;
+      top: 12px;
+      right: 12px;
+      width: 64px;
       height: auto;
       object-fit: contain;
       pointer-events: none;
       z-index: 1;
-      opacity: .96;
-      filter: drop-shadow(0 8px 14px rgba(89, 33, 74, .16));
+      opacity: .92;
+      filter: drop-shadow(0 6px 12px rgba(89, 33, 74, .16));
+      transition: transform .3s ease;
+    }
+
+    .series-card:hover .series-decor {
+      transform: scale(1.06) rotate(3deg);
     }
 
     .series-body {
-      padding: 15px 88px 16px 16px;
-      font-size: 15px;
-      color: var(--muted);
+      padding: 18px 80px 18px 18px;
+      font-size: 14.5px;
+      color: #4b4160;
     }
 
     .series-body h3 {
       margin: 0 0 8px;
-      color: var(--ink);
+      color: #2e1c4a;
       font-size: 17px;
+      font-weight: 800;
     }
 
     .series-body p {
       margin: 0 0 6px;
+      line-height: 1.65;
     }
 
     .status-public {
@@ -629,13 +654,13 @@
       }
 
       .series-decor {
-        width: 58px;
-        top: 8px;
-        right: 8px;
+        width: 52px;
+        top: 10px;
+        right: 10px;
       }
 
       .series-body {
-        padding-right: 74px;
+        padding-right: 68px;
       }
 
       .qa-card summary {
@@ -718,14 +743,14 @@
         </span>
         <span class="tool-arrow" aria-hidden="true">→</span>
       </a>
-	  <a class="tool-card railway-gen" href="brige/index.html">
-		<span class="tool-icon">🚞</span>
-		<span>
-		  <h3>全群系铁路投影生成器</h3>
-		  <p>快速生成全群系铁路投影，支持不同弧度。</p>
-		</span>
-		<span class="tool-arrow" aria-hidden="true">→</span>
-	  </a>
+      <a class="tool-card railway-gen" href="brige/index.html">
+        <span class="tool-icon">🚞</span>
+        <span>
+          <h3>全群系铁路投影生成器</h3>
+          <p>快速生成全群系铁路投影，支持不同弧度。</p>
+        </span>
+        <span class="tool-arrow" aria-hidden="true">→</span>
+      </a>
     </section>
 
     <div class="section-heading">
@@ -759,7 +784,8 @@
           统一在爱发电公开：
           <a href="https://ifdian.net/a/YuanDiamond" target="_blank" rel="noopener">菱源 | 爱发电</a>
           <span class="note">（此链接没有就是不公开，无需再次询问）（存档无需付费）</span><br>
-          爱发电里会按照系列分类资源，可见 Q2 判断属于什么系列。<br>
+          <strong>爱发电里会按照系列分类资源，需查阅 Q2 判断所属系列。</strong><br>
+          <img class="q1-image" src="resources/Q1图像.png" alt="爱发电分类说明图" loading="lazy">
           爱发电难以顾及私信，如有问题可通过其他方式联系。<br>
           部分存档会发布在 QQ 群（肝净生存 01，肝净生存 05）；机械动力全群系铁路存档只提供夸克网盘，因为上传也不方便。
         </div>
@@ -777,22 +803,25 @@
               <div class="series-body">
                 <h3>1. 爆肝纯净生存系列（肝净生存）</h3>
                 <p>原版生存系列，典型视频主题：村民公寓、全群系铁路、菱源岛、全种类花海。</p>
-                <p><strong>已公布存档：</strong>肝净生存01、肝净生存05：Java版1.21.4原版；肝净生存10：Java版26.1原版。</p>
-                <p class="seed"><strong>地图种子：</strong>-4914203979966427482</p>
+                <p><strong>已公布存档(点击跳转)：</strong></p>
+				<p><a href="https://ifdian.net/album/53afea80df4711f0ba6452540025c377/43d1361ce33b11f08ba452540025c377" target="_blank" rel="noopener">肝净生存05</a>（Java版1.21.4原版）</p>
+				<p><a href="https://ifdian.net/album/53afea80df4711f0ba6452540025c377/ff2ef6469ae811f1a1395254001e7c00" target="_blank" rel="noopener">肝净生存10</a>（Java版26.1原版）</p>
+                <p class="seed"><strong>地图种子：</strong><code>-4914203979966427482</code></p>
               </div>
             </article>
 
             <article class="series-card">
-              <img class="series-decor" src="resources/机械动力版全群系铁路.png" alt="机械动力版全群系铁路装饰" loading="lazy">
-              <div class="series-body">
-                <h3>2. 机械动力版全群系铁路</h3>
-                <p>重度机械症整合包下的铁路系列，典型视频主题：工厂、林海铁路、高铁、X1列车。</p>
-                <p><strong>已公布存档：</strong>机械动力全群系铁路存档：重度机械症整合包（存在火车开到地下、部分断轨问题，且20G存储）。</p>
-                <p>
-                  <a href="https://space.bilibili.com/263315" target="_blank" rel="noopener">重度机械症整合包由此进入作者主页获取</a>
-                </p>
-              </div>
-            </article>
+			  <img class="series-decor" src="resources/机械动力版全群系铁路.png" alt="机械动力版全群系铁路装饰" loading="lazy">
+			  <div class="series-body">
+				<h3>2. 机械动力版全群系铁路</h3>
+				<p>重度机械症整合包下的铁路系列，典型视频主题：工厂、林海铁路、高铁、X1列车。</p>
+				<p><strong>已公布存档(点击跳转)：</strong></p>
+				<p><a href="https://ifdian.net/album/f033befce94911f09bd352540025c377/629c3d7e919811f1a59e5254001e7c00" target="_blank" rel="noopener">新存档</a>（此更新存档更优，但一段车站被不幸删除）</p>
+				<p><a href="https://ifdian.net/album/f033befce94911f09bd352540025c377/73f03f6a0d3d11f1b3ec52540025c377" target="_blank" rel="noopener">老存档</a>（此存档存在断轨，连接性问题）</p>
+				<p><strong>整合包：</strong>重度机械症整合包（<a href="https://space.bilibili.com/263315" target="_blank" rel="noopener">由此前往作者主页获取</a>）。</p>
+				<p class="seed"><strong>机械动力版全群系铁路种子：</strong><code>8277224571558220749</code></p>
+			  </div>
+			</article>
 
             <article class="series-card">
               <img class="series-decor" src="resources/建筑翻倍生存.png" alt="建筑翻倍生存系列装饰" loading="lazy">
@@ -809,7 +838,17 @@
                 <h3>4. 依然全群系铁路系列（依然铁路）</h3>
                 <p>含航空学的新铁路系列，典型视频主题：10000米铁路环线、单轨人力线、车站火车。</p>
                 <p><strong>存档状态：</strong><span class="status-soon">未公布存档，未公布整合包（即将公布）。</span></p>
-                <p class="seed"><strong>地图种子：</strong>5893022264688916060</p>
+                <p class="seed"><strong>地图种子：</strong><code>5893022264688916060</code></p>
+              </div>
+            </article>
+
+            <article class="series-card">
+              <img class="series-decor" src="resources/mineland.png" alt="Mineland(麦地)系列装饰" loading="lazy">
+              <div class="series-body">
+                <h3>5. Mineland(麦地)系列</h3>
+                <p>原版多人服务器系列，建筑生存。典型的视频主题：菱源市地下城，菱源创业记，服务器观光铁路。</p>
+                <p><strong>存档状态：</strong>公布存档请等待服务器官方。服务器为邀请制。</p>
+                <p class="seed"><strong>地图种子：</strong><code>-6587635715268903182</code></p>
               </div>
             </article>
           </div>
