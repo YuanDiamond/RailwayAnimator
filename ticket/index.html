@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>菱源-全群系铁路车票生成器</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="vendor/html2canvas.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -78,7 +78,9 @@
                         <label for="start">起点：</label>
                         <select id="start" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all">
                             <option value="出生点总站">出生点总站</option>
-                            <option value="蘑菇岛站">蘑菇岛站</option>
+                            <option value="蘑菇岛枢纽站">蘑菇岛枢纽站</option>
+							<option value="末地主岛站">末地主岛站</option>
+							<option value="斑驳森林站">斑驳森林站</option>
                             <option value="冰原站">冰原站</option>
                             <option value="白桦站">白桦站</option>
                             <option value="丛林站">丛林站</option>
@@ -87,6 +89,8 @@
                             <option value="恶地站">恶地站</option>
                             <option value="樱花站">樱花站</option>
                             <option value="苍白之园站">苍白之园站</option>
+							<option value="唱片殿堂">斑驳森林站</option>
+							<option value="边境之地">斑驳森林站</option>
                         </select>
                     </div>
                     <div id="start-info" class="text-xs text-gray-500 mt-0.5 ml-16"></div>
@@ -95,7 +99,9 @@
                         <label for="end">终点：</label>
                         <select id="end" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all">
                             <option value="出生点总站">出生点总站</option>
-                            <option value="蘑菇岛站">蘑菇岛站</option>
+                            <option value="蘑菇岛枢纽站">蘑菇岛枢纽站</option>
+							<option value="末地主岛站">末地主岛站</option>
+							<option value="斑驳森林站">斑驳森林站</option>
                             <option value="冰原站">冰原站</option>
                             <option value="白桦站">白桦站</option>
                             <option value="丛林站">丛林站</option>
@@ -104,6 +110,8 @@
                             <option value="恶地站">恶地站</option>
                             <option value="樱花站">樱花站</option>
                             <option value="苍白之园站">苍白之园站</option>
+							<option value="唱片殿堂">唱片殿堂</option>
+							<option value="边境之地">边境之地</option>
                         </select>
                     </div>
                     <div id="end-info" class="text-xs text-gray-500 mt-0.5 ml-16"></div>
@@ -119,12 +127,14 @@
                         <label for="shift">班次：</label>
                         <select id="shift" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all">
                             <option value="K1214">K1214</option>
-                            <option value="1218">1218</option>
+                            <option value="V1218">1218</option>
                             <option value="D1206">D1206</option>
                             <option value="T1165">T1165</option>
                             <option value="Z1710">Z1710</option>
                             <option value="G1122">G1122</option>
                             <option value="C1194">C1194</option>
+                            <option value="S261">C1194</option>
+                            <option value="X271">C1194</option>
                             <option value="custom">自定义...</option>
                         </select>
                     </div>
@@ -177,7 +187,7 @@
                                 </div>
                             </div>
                             <div class="ticket-footer">
-                                <div>欢迎乘坐全群系铁路</div>
+                                <div>欢迎乘坐全群系铁路 | 菱源肝净铁路局</div>
                             </div>
                         </div>
                     </div>
@@ -208,27 +218,55 @@
 
     <script>
         // 站台主题色配置
-        const stationColors = {
-            "出生点总站": "#ff0000", "蘑菇岛站": "#ff00ff", "冰原站": "#ffffff",
-            "白桦站": "#cccc99", "丛林站": "#009933", "热带草原站": "#ffff00",
-            "云杉站": "#006633", "恶地站": "#ff9933", "樱花站": "#ff0099", "苍白之园站": "#999999"
-        };
-        const stationWeights = {
-            "出生点总站": 18, "蘑菇岛站": 0, "冰原站": 20, "白桦站": 25, "丛林站": 32,
-            "热带草原站": 45, "云杉站": 51, "恶地站": 72, "樱花站": 81, "苍白之园站": 92
-        };
-        const stationDescriptions = {
-            "出生点总站": "这是世界的原点，是整个铁路网络的核心枢纽。",
-            "蘑菇岛站": "周边是蘑菇的海洋，风景独特，宛如童话世界。",
-            "冰原站": "被冰雪覆盖，寒冷而宁静，是冰雪爱好者的天堂。",
-            "白桦站": "周围生长着大片的白桦林，景色宜人。",
-            "丛林站": "位于茂密的丛林中，充满了生机与神秘。",
-            "热带草原站": "广袤的草原上，动物们自由奔跑，展现出大自然的活力。",
-            "云杉站": "云杉林环绕，空气清新，是放松身心的好地方。",
-            "恶地站": "独特的恶地地貌，色彩斑斓，仿佛置身于另一个星球。",
-            "樱花站": "春天樱花盛开，如诗如画，美不胜收。",
-            "苍白之园站": "宁静而淡雅的地方，给人一种宁静致远的感觉。"
-        };
+		const stationColors = {
+			"出生点总站": "#ff0000",
+			"蘑菇岛枢纽站": "#ff00ff",
+			"冰原站": "#ffffff",
+			"白桦站": "#cccc99",
+			"丛林站": "#009933",
+			"热带草原站": "#ffff00",
+			"云杉站": "#006633",
+			"恶地站": "#ff9933",
+			"樱花站": "#ff0099",
+			"苍白之园站": "#999999",
+			"末地主岛站": "#660099",
+			"斑驳森林站": "#664422",
+			"唱片殿堂": "#222222",
+			"边境之地": "#444466"
+		};
+		const stationWeights = {
+			"出生点总站": 48,
+			"蘑菇岛枢纽站": 30,
+			"冰原站": 50,
+			"白桦站": 55,
+			"丛林站": 62,
+			"热带草原站": 75,
+			"云杉站": 81,
+			"恶地站": 102,
+			"樱花站": 111,
+			"苍白之园站": 122,
+			"末地主岛站": 20,
+			"斑驳森林站": 10,
+			"唱片殿堂": 23,
+			"边境之地": 0
+		};
+		const stationDescriptions = {
+			"出生点总站": "这是世界的原点，是整个铁路网络的核心枢纽。",
+			"蘑菇岛枢纽站": "周边是蘑菇的海洋，风景独特，宛如童话世界。",
+			"冰原站": "被冰雪覆盖，寒冷而宁静，是冰雪爱好者的天堂。",
+			"白桦站": "周围生长着大片的白桦林，景色宜人。",
+			"丛林站": "位于茂密的丛林中，充满了生机与神秘。",
+			"热带草原站": "广袤的草原上，动物们自由奔跑，展现出大自然的活力。",
+			"云杉站": "云杉林环绕，空气清新，是放松身心的好地方。",
+			"恶地站": "独特的恶地地貌，色彩斑斓，仿佛置身于另一个星球。",
+			"樱花站": "春天樱花盛开，如诗如画，美不胜收。",
+			"苍白之园站": "宁静而淡雅的地方，给人一种宁静致远的感觉。",
+			"末地主岛站": "世界终焉之处，漂浮在虚空之中的孤寂岛屿。",
+			"斑驳森林站": "树木斑驳错落，光影忽明忽暗，带着朦胧的神秘感。",
+			"唱片殿堂": "回荡着唱片的旋律，是音乐与时光驻足的圣殿。",
+			"边境之地": "地图边界的尽头，世界规则开始扭曲的遥远终点。"
+		};
+
 
         document.getElementById('shift').addEventListener('change', function() {
             document.getElementById('customShift').classList.toggle('hidden', this.value !== 'custom');
@@ -266,14 +304,14 @@
             if (shift === 'custom') shift = document.getElementById('customShift').value || '未指定';
 
             const bgImg = document.querySelector('.ticket .bg-img');
-            bgImg.src = `${start}.png`;
+            bgImg.src = `../resources/stations/${encodeURIComponent(start)}.png`;
             document.getElementById('ticketNumber').textContent = `NO.${Date.now().toString().padStart(8,'0')}`;
             document.getElementById('ticketNumber').style.color = stationColors[end] || '#000';
             document.getElementById('route').dataset.start = start;
             document.getElementById('route').dataset.end = end;
 
             const now = new Date();
-            document.getElementById('time').textContent = `${now.getFullYear()}年${String(now.getMonth()+1).padStart(2,'0')}月${String(now.getDate()).padStart(2,'0')}日 ${String(now.getHours()+1).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')} 开`;
+            document.getElementById('time').textContent = `${now.getFullYear()}年${String(now.getMonth()+1).padStart(2,'0')}月${String(now.getDate()).padStart(2,'0')}日 ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')} 开`;
             document.getElementById('playerNameDisplay').textContent = name;
             document.getElementById('shiftDisplay').textContent = shift;
 
