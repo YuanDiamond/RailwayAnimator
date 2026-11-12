@@ -304,7 +304,7 @@
             if (shift === 'custom') shift = document.getElementById('customShift').value || '未指定';
 
             const bgImg = document.querySelector('.ticket .bg-img');
-            bgImg.src = `../resources/stations/${encodeURIComponent(start)}.png`;
+            bgImg.src = `${encodeURIComponent(start)}.png`;
             document.getElementById('ticketNumber').textContent = `NO.${Date.now().toString().padStart(8,'0')}`;
             document.getElementById('ticketNumber').style.color = stationColors[end] || '#000';
             document.getElementById('route').dataset.start = start;
