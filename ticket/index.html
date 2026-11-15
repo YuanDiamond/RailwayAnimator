@@ -325,19 +325,118 @@
             document.getElementById('saveTicketHint').textContent = 'PNG 图片将直接下载到本地';
         }
 
+        // 确保 html2canvas 可用：优先使用本地脚本，失败时依次尝试 CDN。
+        async function ensureHtml2Canvas() {
+            if (typeof window.html2canvas === 'function') return window.html2canvas;
+
+            const sources = [
+                'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'
+            ];
+
+            for (const src of sources) {
+                try {
+                    await new Promise((resolve, reject) => {
+                        const script = document.createElement('script');
+                        const timer = setTimeout(() => {
+                            script.remove();
+                            reject(new Error('加载 html2canvas 超时'));
+                        }, 12000);
+                        script.src = src;
+                        script.onload = () => {
+                            clearTimeout(timer);
+                            resolve();
+                        };
+                        script.onerror = () => {
+                            clearTimeout(timer);
+                            script.remove();
+                            reject(new Error(`无法加载脚本：${src}`));
+                        };
+                        document.head.appendChild(script);
+                    });
+                    if (typeof window.html2canvas === 'function') return window.html2canvas;
+                } catch (err) {
+                    console.warn(err);
+                }
+            }
+            throw new Error('html2canvas 未加载。请检查网络连接，或将 html2canvas.min.js 放在 vendor 目录下。');
+        }
+
+        // 通过 Blob 下载；若浏览器无法生成 Blob，则退回 Data URL。
+        function saveCanvasAsPNG(canvas, filename) {
+            return new Promise((resolve, reject) => {
+                const triggerDownload = (href, revokeUrl) => {
+                    const a = document.createElement('a');
+                    a.href = href;
+                    a.download = filename;
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    if (revokeUrl) setTimeout(() => URL.revokeObjectURL(href), 60000);
+                    resolve();
+                };
+
+                if (typeof canvas.toBlob === 'function') {
+                    canvas.toBlob(blob => {
+                        if (blob) {
+                            try {
+                                triggerDownload(URL.createObjectURL(blob), true);
+                            } catch (err) {
+                                reject(err);
+                            }
+                        } else {
+                            try {
+                                triggerDownload(canvas.toDataURL('image/png'), false);
+                            } catch (err) {
+                                reject(err);
+                            }
+                        }
+                    }, 'image/png');
+                } else {
+                    try {
+                        triggerDownload(canvas.toDataURL('image/png'), false);
+                    } catch (err) {
+                        reject(err);
+                    }
+                }
+            });
+        }
+
         async function downloadTicketPNG() {
             const ticketEl = document.getElementById('ticket');
             const saveBtn = document.getElementById('saveTicketPng');
             const hint = document.getElementById('saveTicketHint');
-            if (ticketEl.style.display === 'none') { hint.textContent = '请先生成车票'; return; }
-            saveBtn.disabled = true; hint.textContent = '正在生成 PNG...';
+
+            if (!ticketEl || getComputedStyle(ticketEl).display === 'none') {
+                hint.textContent = '请先生成车票';
+                return;
+            }
+
+            saveBtn.disabled = true;
+            hint.textContent = '正在生成 PNG...';
+
             try {
-                await document.fonts.ready;
-                await new Promise(r => requestAnimationFrame(r));
+                const html2canvasFn = await ensureHtml2Canvas();
+
+                if (document.fonts && document.fonts.ready) await document.fonts.ready;
+                await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
                 const bg = ticketEl.querySelector('.bg-img');
-                if (bg && !bg.complete) await new Promise(r => { bg.onload = r; bg.onerror = r; });
-                const canvas = await html2canvas(ticketEl, {
-                    backgroundColor: null, scale: 2, useCORS: true, allowTaint: false, logging: false,
+                if (bg && bg.src && !bg.complete) {
+                    await new Promise(resolve => {
+                        bg.addEventListener('load', resolve, { once: true });
+                        bg.addEventListener('error', resolve, { once: true });
+                    });
+                }
+
+                const canvas = await html2canvasFn(ticketEl, {
+                    backgroundColor: null,
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: false,
+                    logging: false,
+                    imageTimeout: 10000,
                     onclone: function(clonedDoc) {
                         const footer = clonedDoc.querySelector('.ticket-footer');
                         if (footer) {
@@ -346,20 +445,20 @@
                         }
                     }
                 });
+
+                if (!canvas || canvas.width === 0 || canvas.height === 0) {
+                    throw new Error('车票截图画布为空');
+                }
+
                 const num = document.getElementById('ticketNumber').textContent || 'ticket';
-                await new Promise((resolve, reject) => {
-                    canvas.toBlob(blob => {
-                        if (!blob) reject(new Error('无法创建 PNG'));
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url; a.download = `${num}.png`; a.click();
-                        setTimeout(() => URL.revokeObjectURL(url), 1000);
-                        resolve();
-                    }, 'image/png');
-                });
-                hint.textContent = 'PNG 已保存';
-            } catch(e) { hint.textContent = 'PNG 保存失败'; console.error(e); }
-            finally { saveBtn.disabled = false; }
+                await saveCanvasAsPNG(canvas, `${num}.png`);
+                hint.textContent = 'PNG 下载已触发；若未出现文件，请检查浏览器下载权限。';
+            } catch (e) {
+                hint.textContent = `PNG 保存失败：${e.message || e}`;
+                console.error('车票 PNG 导出失败：', e);
+            } finally {
+                saveBtn.disabled = false;
+            }
         }
 
         function generateRandomPlayerName() {
